@@ -10,7 +10,7 @@ A comprehensive full-stack educational management system with role-based dashboa
 - **Analytics Dashboard**: Real-time charts and statistics
 - **Logs & Reports**: Activity tracking and reporting
 
-### 👨‍🏫 Teacher Features
+### 👨🏫 Teacher Features
 - **Virtual Classroom**: Live video sessions with WebRTC
 - **Quiz Management**: Create and manage quizzes with auto-grading
 - **Class Management**: Student roster and performance tracking
@@ -39,33 +39,6 @@ A comprehensive full-stack educational management system with role-based dashboa
 - **Translation**: Google Cloud Translate API
 - **Deployment**: Docker, Nginx
 
-## 📁 Project Structure
-
-```
-project-root/
-├── client/                 # React frontend
-│   ├── src/
-│   │   ├── components/     # Reusable components
-│   │   │   ├── Admin/      # Admin-specific components
-│   │   │   ├── Teacher/    # Teacher-specific components
-│   │   │   ├── Student/    # Student-specific components
-│   │   │   └── Common/     # Shared components
-│   │   ├── pages/          # Page components
-│   │   ├── context/        # React context providers
-│   │   ├── services/       # API services
-│   │   └── utils/          # Utility functions
-│   └── package.json
-├── server/                 # Node.js backend
-│   ├── controllers/        # Route controllers
-│   ├── routes/            # API routes
-│   ├── models/            # MongoDB models
-│   ├── middlewares/       # Custom middleware
-│   ├── config/            # Configuration files
-│   └── utils/             # Utility functions
-├── mobile/                # React Native app (future)
-└── docker-compose.yml     # Docker configuration
-```
-
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -77,8 +50,8 @@ project-root/
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd digital-learning-2
+   git clone https://github.com/PriyanshuKSharma/digital-learning.git
+   cd digital-learning
    ```
 
 2. **Install server dependencies**
@@ -98,26 +71,8 @@ project-root/
    cd ../server
    cp .env.example .env
    ```
-   
-   Update the `.env` file with your configuration:
-   ```env
-   MONGODB_URI=mongodb://localhost:27017/edu_management
-   JWT_SECRET=your_super_secret_jwt_key_here
-   JWT_REFRESH_SECRET=your_super_secret_refresh_key_here
-   OPENAI_API_KEY=your_openai_api_key_here
-   GOOGLE_TRANSLATE_API_KEY=your_google_translate_api_key_here
-   ```
 
-5. **Start MongoDB**
-   ```bash
-   # Using MongoDB service
-   sudo systemctl start mongod
-   
-   # Or using Docker
-   docker run -d -p 27017:27017 --name mongodb mongo:6.0
-   ```
-
-6. **Start the development servers**
+5. **Start the development servers**
    
    **Terminal 1 - Backend:**
    ```bash
@@ -131,7 +86,7 @@ project-root/
    npm start
    ```
 
-7. **Access the application**
+6. **Access the application**
    - Frontend: http://localhost:3000
    - Backend API: http://localhost:5000
 
@@ -152,118 +107,6 @@ project-root/
    - Application: http://localhost
    - API: http://localhost:5000
 
-## 📚 API Documentation
-
-### Authentication Endpoints
-- `POST /api/auth/login` - User login
-- `POST /api/auth/logout` - User logout
-- `POST /api/auth/refresh` - Refresh access token
-
-### Admin Endpoints
-- `GET /api/admin/teachers` - Get all teachers
-- `POST /api/admin/teachers` - Create teacher
-- `PUT /api/admin/teachers/:id` - Update teacher
-- `DELETE /api/admin/teachers/:id` - Delete teacher
-- `GET /api/admin/students` - Get all students
-- `POST /api/admin/students` - Create student
-- `PUT /api/admin/students/:id` - Update student
-- `DELETE /api/admin/students/:id` - Delete student
-- `GET /api/admin/analytics` - Get analytics data
-
-### Teacher Endpoints
-- `GET /api/teacher/classes` - Get assigned classes
-- `POST /api/teacher/quiz` - Create quiz
-- `GET /api/teacher/quizzes` - Get all quizzes
-- `PUT /api/teacher/quiz/:id` - Update quiz
-- `DELETE /api/teacher/quiz/:id` - Delete quiz
-
-### Student Endpoints
-- `GET /api/student/dashboard` - Get dashboard data
-- `GET /api/student/materials` - Get learning materials
-- `POST /api/student/submit-quiz/:id` - Submit quiz
-- `POST /api/student/ai-tutor` - Chat with AI tutor
-- `POST /api/student/code-run` - Execute code
-
-## 🔧 Configuration
-
-### Environment Variables
-
-**Server (.env)**
-```env
-# Database
-MONGODB_URI=mongodb://localhost:27017/edu_management
-
-# JWT
-JWT_SECRET=your_jwt_secret
-JWT_REFRESH_SECRET=your_refresh_secret
-
-# APIs
-OPENAI_API_KEY=your_openai_key
-GOOGLE_TRANSLATE_API_KEY=your_translate_key
-
-# Server
-PORT=5000
-NODE_ENV=development
-CLIENT_URL=http://localhost:3000
-```
-
-**Client (.env)**
-```env
-REACT_APP_API_URL=http://localhost:5000/api
-REACT_APP_SOCKET_URL=http://localhost:5000
-```
-
-## 🧪 Testing
-
-```bash
-# Run server tests
-cd server
-npm test
-
-# Run client tests
-cd client
-npm test
-```
-
-## 📱 Mobile App (React Native)
-
-The mobile application will be developed using React Native and will share the same backend APIs.
-
-```bash
-cd mobile
-npx react-native init EduMobileApp
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-For support, email support@edumanagement.com or join our Slack channel.
-
-## 🗺️ Roadmap
-
-- [ ] Complete Teacher Dashboard components
-- [ ] Implement Student Dashboard features
-- [ ] Add AI Tutor functionality
-- [ ] Integrate WebRTC for video calls
-- [ ] Add real-time notifications
-- [ ] Implement file upload system
-- [ ] Add mobile app development
-- [ ] Performance optimization
-- [ ] Security enhancements
-- [ ] Comprehensive testing
-
 ---
 
 **Built with ❤️ for education**
-
