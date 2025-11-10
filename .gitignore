@@ -1,3 +1,8 @@
-server\.env
-server\node_modules
-server\.env
+# Environment files
+server/.env
+*.env
+!*.env.example
+
+# Dependencies
+server/node_modules
+node_modules/
