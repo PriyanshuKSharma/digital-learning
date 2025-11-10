@@ -6,6 +6,13 @@
 \usepackage{tikz}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue
+}
 
 \setbeamercolor{structure}{fg=black}
 \setbeamercolor{frametitle}{bg=white,fg=black}
@@ -53,24 +60,24 @@ Prof. Prini Rastogi
 % Slide 2: Table of Contents
 \begin{frame}{Table of Contents}
 \begin{itemize}
-\item Introduction
-\item Problem Statement
-\item Literature Review
-\item Research Methodology
-\item System Architecture
-\item Key Features
-\item AI Integration
-\item Implementation
-\item Demo
-\item Deployment
-\item Future Scope
-\item References
-\item Conclusion
+\item \hyperlink{introduction}{Introduction}
+\item \hyperlink{problem}{Problem Statement}
+\item \hyperlink{literature}{Literature Review}
+\item \hyperlink{methodology}{Research Methodology}
+\item \hyperlink{architecture}{System Architecture}
+\item \hyperlink{features}{Key Features}
+\item \hyperlink{ai}{AI Integration}
+\item \hyperlink{implementation}{Implementation}
+\item \hyperlink{demo}{Demo}
+\item \hyperlink{deployment}{Deployment}
+\item \hyperlink{future}{Future Scope}
+\item \hyperlink{references}{References}
+\item \hyperlink{conclusion}{Conclusion}
 \end{itemize}
 \end{frame}
 
 % Slide 3: Introduction
-\begin{frame}{Introduction}
+\begin{frame}{Introduction}\label{introduction}
 \begin{itemize}
 \item \textbf{Project:} AI-Powered Educational Management System
 \item \textbf{Type:} Full-Stack Web Application
@@ -84,7 +91,7 @@ Prof. Prini Rastogi
 \end{frame}
 
 % Slide 4: Problem Statement
-\begin{frame}{Problem Statement}
+\begin{frame}{Problem Statement}\label{problem}
 \begin{itemize}
 \item Traditional educational systems lack digital integration
 \item Limited personalized learning support for students
@@ -99,7 +106,7 @@ Prof. Prini Rastogi
 \end{frame}
 
 % Slide 5: Literature Review
-\begin{frame}{Literature Review}
+\begin{frame}{Literature Review}\label{literature}
 \textbf{Existing Systems Analysis:}
 \begin{itemize}
 \item \textbf{Moodle LMS [1]:} Open-source LMS, limited AI integration
@@ -118,7 +125,7 @@ Prof. Prini Rastogi
 \end{frame}
 
 % Slide 6: Research Methodology
-\begin{frame}{Research Methodology}
+\begin{frame}{Research Methodology}\label{methodology}
 \textbf{Development Approach:}
 \begin{itemize}
 \item \textbf{Agile Methodology:} Iterative development with continuous feedback
@@ -138,7 +145,7 @@ Prof. Prini Rastogi
 \end{frame}
 
 % Slide 7: System Architecture
-\begin{frame}{System Architecture}
+\begin{frame}{System Architecture}\label{architecture}
 \begin{center}
 \begin{tikzpicture}[scale=0.6]
 \draw[fill=blue!20] (0,4) rectangle (8,5);
@@ -174,7 +181,7 @@ Prof. Prini Rastogi
 \end{frame}
 
 % Slide 8: Key Features - Admin
-\begin{frame}{Key Features - Admin Dashboard}
+\begin{frame}{Key Features - Admin Dashboard}\label{features}
 \begin{itemize}
 \item \textbf{Teacher Management}
   \begin{itemize}
@@ -217,7 +224,7 @@ Prof. Prini Rastogi
 \end{frame}
 
 % Slide 10: AI Integration
-\begin{frame}{AI Integration}
+\begin{frame}{AI Integration}\label{ai}
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \node[draw,circle,fill=blue!30,minimum size=2cm] (ai) at (0,0) {\textbf{AI Core}};
@@ -249,7 +256,7 @@ Prof. Prini Rastogi
 \end{frame}
 
 % Slide 11: Implementation
-\begin{frame}{Implementation}
+\begin{frame}{Implementation}\label{implementation}
 \textbf{Database Schema:}
 \begin{columns}
 \begin{column}{0.5\textwidth}
@@ -289,7 +296,7 @@ Prof. Prini Rastogi
 \end{frame}
 
 % Slide 12: Demo
-\begin{frame}{Demo \& Testing}
+\begin{frame}{Demo \& Testing}\label{demo}
 \begin{center}
 \textbf{Demo Credentials:}
 \begin{tabular}{|c|c|c|}
@@ -315,7 +322,7 @@ Student & student1 & student123 \\
 \end{frame}
 
 % Slide 13: Deployment
-\begin{frame}{Deployment}
+\begin{frame}{Deployment}\label{deployment}
 \textbf{Docker Deployment [10-11]:}
 \begin{itemize}
 \item \textbf{Containerization:} Docker Compose for multi-service deployment
@@ -341,7 +348,7 @@ Student & student1 & student123 \\
 \end{frame}
 
 % Slide 14: Future Scope
-\begin{frame}{Future Scope}
+\begin{frame}{Future Scope}\label{future}
 \textbf{Platform Extensions [12-13]:}
 \begin{itemize}
 \item \textbf{Mobile Applications:} Native iOS/Android with offline capabilities
@@ -366,7 +373,7 @@ Student & student1 & student123 \\
 \end{frame}
 
 % Slide 15: References
-\begin{frame}{References}
+\begin{frame}{References}\label{references}
 \tiny
 \begin{enumerate}
 \item M. Dougiamas and P. Taylor, "Moodle: Using learning communities to create an open source course management system," \textit{Proc. EDMEDIA}, pp. 171-178, 2003.
@@ -388,7 +395,7 @@ Student & student1 & student123 \\
 \end{frame}
 
 % Slide 16: Conclusion
-\begin{frame}{Conclusion}
+\begin{frame}{Conclusion}\label{conclusion}
 \textbf{Key Achievements:}
 \begin{itemize}
 \item Comprehensive educational ecosystem with role-based access control
