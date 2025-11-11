@@ -13,6 +13,10 @@ import StudentDashboard from './pages/StudentDashboard';
 
 // Components
 import LoadingSpinner from './components/Common/LoadingSpinner';
+import VirtualClass from './components/VirtualClass';
+import TeacherVirtualClass from './components/TeacherVirtualClass';
+import StudentVirtualClass from './components/StudentVirtualClass';
+import AttendanceManager from './components/AttendanceManager';
 
 // Styles
 import './App.css';
@@ -78,6 +82,42 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute allowedRoles={['student']}>
             <StudentDashboard />
+          </ProtectedRoute>
+        } 
+      />
+      
+      <Route 
+        path="/virtual-class/:classId" 
+        element={
+          <ProtectedRoute allowedRoles={['teacher', 'student']}>
+            <VirtualClass />
+          </ProtectedRoute>
+        } 
+      />
+      
+      <Route 
+        path="/teacher-virtual-classes" 
+        element={
+          <ProtectedRoute allowedRoles={['teacher']}>
+            <TeacherVirtualClass />
+          </ProtectedRoute>
+        } 
+      />
+      
+      <Route 
+        path="/student-virtual-classes" 
+        element={
+          <ProtectedRoute allowedRoles={['student']}>
+            <StudentVirtualClass />
+          </ProtectedRoute>
+        } 
+      />
+      
+      <Route 
+        path="/virtual-class/:classId/attendance" 
+        element={
+          <ProtectedRoute allowedRoles={['teacher']}>
+            <AttendanceManager />
           </ProtectedRoute>
         } 
       />

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Sidebar from '../components/Common/Sidebar';
 import Header from '../components/Common/Header';
 import TeacherHome from '../components/Teacher/TeacherHome';
-import VirtualClass from '../components/Teacher/VirtualClass';
+import TeacherVirtualClass from '../components/TeacherVirtualClass';
 import QuizManagement from '../components/Teacher/QuizManagement';
 import AllocatedSubjects from '../components/Teacher/AllocatedSubjects';
 import ClassManagement from '../components/Teacher/ClassManagement';
@@ -45,7 +45,7 @@ const TeacherDashboard = () => {
         <main className="flex-1 overflow-y-auto p-6">
           <Routes>
             <Route index element={<TeacherHome />} />
-            <Route path="virtual-class" element={<VirtualClass />} />
+            <Route path="virtual-class" element={<TeacherVirtualClass />} />
             <Route path="quiz" element={<QuizManagement />} />
             <Route path="subjects" element={<AllocatedSubjects />} />
             <Route path="students" element={<ClassManagement />} />

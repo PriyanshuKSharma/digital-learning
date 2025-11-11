@@ -14,6 +14,7 @@ const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 const teacherRoutes = require('./routes/teacher');
 const studentRoutes = require('./routes/student');
+const virtualClassRoutes = require('./routes/virtualClass');
 
 const app = express();
 const server = http.createServer(app);
@@ -55,6 +56,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/teacher', teacherRoutes);
 app.use('/api/student', studentRoutes);
+app.use('/api/virtual-class', virtualClassRoutes);
 
 // Root route
 app.get('/', (req, res) => {
@@ -84,41 +86,107 @@ app.get('/api/health', (req, res) => {
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
-  // Join classroom
-  socket.on('join-classroom', (classroomId) => {
-    socket.join(classroomId);
-    console.log(`User ${socket.id} joined classroom ${classroomId}`);
+  // Join virtual class
+  socket.on('join-virtual-class', (data) => {
+    const { classId, userId, userType } = data;
+    socket.join(classId);
+    socket.userId = userId;
+    socket.userType = userType;
+    socket.classId = classId;
+    
+    // Notify others about new participant
+    socket.to(classId).emit('participant-joined', {
+      userId,
+      userType,
+      socketId: socket.id
+    });
+    
+    console.log(`${userType} ${userId} joined virtual class ${classId}`);
   });
 
-  // Leave classroom
-  socket.on('leave-classroom', (classroomId) => {
-    socket.leave(classroomId);
-    console.log(`User ${socket.id} left classroom ${classroomId}`);
+  // Leave virtual class
+  socket.on('leave-virtual-class', (classId) => {
+    socket.leave(classId);
+    socket.to(classId).emit('participant-left', {
+      userId: socket.userId,
+      userType: socket.userType,
+      socketId: socket.id
+    });
+    console.log(`User ${socket.userId} left virtual class ${classId}`);
   });
 
   // Handle chat messages
   socket.on('chat-message', (data) => {
-    io.to(data.classroomId).emit('chat-message', {
+    io.to(data.classId).emit('chat-message', {
       message: data.message,
       sender: data.sender,
+      userId: data.userId,
       timestamp: new Date()
     });
   });
 
-  // Handle video call signaling
+  // WebRTC signaling for video calls
   socket.on('video-offer', (data) => {
-    socket.to(data.classroomId).emit('video-offer', data);
+    socket.to(data.targetSocketId).emit('video-offer', {
+      offer: data.offer,
+      fromSocketId: socket.id,
+      fromUserId: socket.userId
+    });
   });
 
   socket.on('video-answer', (data) => {
-    socket.to(data.classroomId).emit('video-answer', data);
+    socket.to(data.targetSocketId).emit('video-answer', {
+      answer: data.answer,
+      fromSocketId: socket.id,
+      fromUserId: socket.userId
+    });
   });
 
   socket.on('ice-candidate', (data) => {
-    socket.to(data.classroomId).emit('ice-candidate', data);
+    socket.to(data.targetSocketId).emit('ice-candidate', {
+      candidate: data.candidate,
+      fromSocketId: socket.id,
+      fromUserId: socket.userId
+    });
+  });
+
+  // Attendance tracking
+  socket.on('mark-attendance', (data) => {
+    if (socket.userType === 'teacher') {
+      io.to(socket.classId).emit('attendance-marked', data);
+    }
+  });
+
+  // Screen sharing
+  socket.on('start-screen-share', () => {
+    socket.to(socket.classId).emit('screen-share-started', {
+      userId: socket.userId,
+      socketId: socket.id
+    });
+  });
+
+  socket.on('stop-screen-share', () => {
+    socket.to(socket.classId).emit('screen-share-stopped', {
+      userId: socket.userId,
+      socketId: socket.id
+    });
+  });
+
+  // Mute/unmute controls (teacher only)
+  socket.on('mute-participant', (data) => {
+    if (socket.userType === 'teacher') {
+      io.to(socket.classId).emit('participant-muted', data);
+    }
   });
 
   socket.on('disconnect', () => {
+    if (socket.classId) {
+      socket.to(socket.classId).emit('participant-left', {
+        userId: socket.userId,
+        userType: socket.userType,
+        socketId: socket.id
+      });
+    }
     console.log('User disconnected:', socket.id);
   });
 });

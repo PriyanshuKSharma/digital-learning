@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Sidebar from '../components/Common/Sidebar';
 import Header from '../components/Common/Header';
 import StudentHome from '../components/Student/StudentHome';
-import VirtualClass from '../components/Student/VirtualClass';
+import StudentVirtualClass from '../components/StudentVirtualClass';
 import Materials from '../components/Student/Materials';
 import AITutor from '../components/Student/AITutor';
 import CodeEditor from '../components/Student/CodeEditor';
@@ -43,7 +43,7 @@ const StudentDashboard = () => {
         <main className="flex-1 overflow-y-auto p-6">
           <Routes>
             <Route index element={<StudentHome />} />
-            <Route path="class" element={<VirtualClass />} />
+            <Route path="class" element={<StudentVirtualClass />} />
             <Route path="materials" element={<Materials />} />
             <Route path="ai-tutor" element={<AITutor />} />
             <Route path="code-editor" element={<CodeEditor />} />
