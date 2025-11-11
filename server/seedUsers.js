@@ -43,7 +43,7 @@ const seedUsers = async () => {
         username: 'student1',
         password: 'student123',
         role: 'student',
-        fullName: 'Rahul Kumar',
+        fullName: 'Sharman Kumar',
         email: 'student1@ndemlp.gov.in'
       }
     ];
