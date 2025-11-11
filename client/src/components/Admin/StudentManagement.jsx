@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Eye, Search } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, Search, UserCheck, UserX } from 'lucide-react';
 import { adminAPI } from '../../services/api';
 import LoadingSpinner from '../Common/LoadingSpinner';
+import StudentModal from './StudentModal';
+import StudentDetailModal from './StudentDetailModal';
 import toast from 'react-hot-toast';
 
 const StudentManagement = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null);
 
   useEffect(() => {
     fetchStudents();
@@ -30,11 +34,42 @@ const StudentManagement = () => {
 
     try {
       await adminAPI.deleteStudent(studentId);
-      setStudents(students.filter(s => s._id !== studentId));
+      fetchStudents();
       toast.success('Student deleted successfully');
     } catch (error) {
       toast.error('Failed to delete student');
     }
+  };
+
+  const handleEditStudent = (student) => {
+    setSelectedStudent(student);
+    setShowModal(true);
+  };
+
+  const handleCreateStudent = () => {
+    setSelectedStudent(null);
+    setShowModal(true);
+  };
+
+  const handleModalSuccess = () => {
+    fetchStudents();
+    setShowModal(false);
+    setSelectedStudent(null);
+  };
+
+  const handleToggleStatus = async (studentId, currentStatus) => {
+    try {
+      await adminAPI.toggleStudentStatus(studentId);
+      fetchStudents();
+      toast.success(`Student ${currentStatus ? 'deactivated' : 'activated'} successfully`);
+    } catch (error) {
+      toast.error('Failed to update student status');
+    }
+  };
+
+  const handleViewDetails = (student) => {
+    setSelectedStudent(student);
+    setShowDetailModal(true);
   };
 
   const filteredStudents = students.filter(student =>
@@ -57,7 +92,7 @@ const StudentManagement = () => {
           <p className="text-gray-600 dark:text-gray-400">Manage students and their academic records</p>
         </div>
         <button
-          onClick={() => setShowCreateModal(true)}
+          onClick={handleCreateStudent}
           className="btn-primary flex items-center space-x-2"
         >
           <Plus size={20} />
@@ -115,18 +150,36 @@ const StudentManagement = () => {
                 </div>
               </div>
 
-              <div className="flex space-x-2 w-full">
-                <button className="flex-1 p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors">
-                  <Eye size={16} className="mx-auto" />
+              <div className="flex space-x-1 w-full">
+                <button 
+                  onClick={() => handleViewDetails(student)}
+                  className="flex-1 p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                  title="View Details"
+                >
+                  <Eye size={14} className="mx-auto" />
                 </button>
-                <button className="flex-1 p-2 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg transition-colors">
-                  <Edit size={16} className="mx-auto" />
+                <button 
+                  onClick={() => handleEditStudent(student)}
+                  className="flex-1 p-2 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg transition-colors"
+                >
+                  <Edit size={14} className="mx-auto" />
+                </button>
+                <button
+                  onClick={() => handleToggleStatus(student._id, student.userId?.isActive)}
+                  className={`flex-1 p-2 rounded-lg transition-colors ${
+                    student.userId?.isActive
+                      ? 'text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20'
+                      : 'text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20'
+                  }`}
+                  title={student.userId?.isActive ? 'Deactivate' : 'Activate'}
+                >
+                  {student.userId?.isActive ? <UserX size={14} className="mx-auto" /> : <UserCheck size={14} className="mx-auto" />}
                 </button>
                 <button
                   onClick={() => handleDeleteStudent(student._id)}
                   className="flex-1 p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                 >
-                  <Trash2 size={16} className="mx-auto" />
+                  <Trash2 size={14} className="mx-auto" />
                 </button>
               </div>
 
@@ -161,6 +214,21 @@ const StudentManagement = () => {
           <button className="btn-secondary">Next</button>
         </div>
       </div>
+
+      {/* Student Modal */}
+      <StudentModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        student={selectedStudent}
+        onSuccess={handleModalSuccess}
+      />
+
+      {/* Student Detail Modal */}
+      <StudentDetailModal
+        isOpen={showDetailModal}
+        onClose={() => setShowDetailModal(false)}
+        student={selectedStudent}
+      />
     </div>
   );
 };
