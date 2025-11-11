@@ -4,7 +4,7 @@ const Student = require('../models/Student');
 const Quiz = require('../models/Quiz');
 const Classroom = require('../models/Classroom');
 const { auth, authorize } = require('../middlewares/auth');
-const AITutorService = require('../ai_tutor/aiService');
+const aiTutorRoutes = require('../ai_tutor/aiRoutes');
 
 const router = express.Router();
 
@@ -181,33 +181,8 @@ router.post('/submit-quiz/:quizId', [
   }
 });
 
-// AI Tutor chat
-router.post('/ai-tutor', async (req, res) => {
-  try {
-    const { message } = req.body;
-    
-    if (!message || message.trim() === '') {
-      return res.status(400).json({ message: 'Message is required' });
-    }
-
-    const result = await AITutorService.processQuery(req.user.id, message.trim());
-
-    res.json({
-      success: true,
-      data: {
-        response: result.response,
-        conversationId: result.conversationId,
-        timestamp: new Date()
-      }
-    });
-  } catch (error) {
-    console.error('AI Tutor Error:', error);
-    res.status(500).json({ 
-      message: 'Failed to get AI response', 
-      error: error.message 
-    });
-  }
-});
+// AI Tutor routes
+router.use('/ai-tutor', aiTutorRoutes);
 
 // Code execution
 router.post('/code-run', [

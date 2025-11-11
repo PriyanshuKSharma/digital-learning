@@ -141,6 +141,27 @@ router.delete('/teachers/:id', async (req, res) => {
   }
 });
 
+router.patch('/teachers/:id/toggle-status', async (req, res) => {
+  try {
+    const teacher = await Teacher.findById(req.params.id);
+    if (!teacher) {
+      return res.status(404).json({ message: 'Teacher not found' });
+    }
+
+    const user = await User.findById(teacher.userId);
+    user.isActive = !user.isActive;
+    await user.save();
+
+    res.json({
+      success: true,
+      message: `Teacher ${user.isActive ? 'activated' : 'deactivated'} successfully`,
+      isActive: user.isActive
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
 // Student Management
 router.get('/students', async (req, res) => {
   try {
@@ -277,6 +298,27 @@ router.delete('/students/:id', async (req, res) => {
     res.json({
       success: true,
       message: 'Student deactivated successfully'
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
+router.patch('/students/:id/toggle-status', async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.id);
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+
+    const user = await User.findById(student.userId);
+    user.isActive = !user.isActive;
+    await user.save();
+
+    res.json({
+      success: true,
+      message: `Student ${user.isActive ? 'activated' : 'deactivated'} successfully`,
+      isActive: user.isActive
     });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
